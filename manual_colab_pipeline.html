@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Manual Rápido — Pipeline Rosas · UEES 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --verde:      #1A4731;
+    --verde-mid:  #2D6A4F;
+    --verde-soft: #52B788;
+    --verde-pale: #F0FDF4;
+    --verde-light:#D8F3DC;
+    --gold:       #C9A84C;
+    --gold-pale:  #FEF9E7;
+    --gray-900:   #1C1C18;
+    --gray-700:   #3A3A34;
+    --gray-500:   #6B6B62;
+    --gray-200:   #E8E8E4;
+    --gray-50:    #F7F7F5;
+    --rojo:       #B91C1C;
+    --rojo-pale:  #FEF2F2;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'IBM Plex Sans', sans-serif;
+    background: var(--gray-50);
+    color: var(--gray-900);
+    min-height: 100vh;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 32px 16px;
+  }
+
+  .page {
+    width: 100%;
+    max-width: 780px;
+  }
+
+  /* ── HEADER ── */
+  .header {
+    background: var(--verde);
+    border-radius: 14px 14px 0 0;
+    padding: 22px 28px 18px;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+  }
+  .header-left { flex: 1; }
+  .header-tag {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--verde-soft);
+    margin-bottom: 5px;
+  }
+  .header-title {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 18px;
+    font-weight: 600;
+    color: white;
+    line-height: 1.2;
+  }
+  .header-sub {
+    font-size: 11.5px;
+    color: rgba(255,255,255,0.5);
+    margin-top: 5px;
+  }
+  .header-rose {
+    font-size: 48px;
+    opacity: 0.25;
+    line-height: 1;
+  }
+
+  /* ── BODY ── */
+  .body {
+    background: white;
+    border: 1px solid var(--gray-200);
+    border-top: none;
+    border-radius: 0 0 14px 14px;
+    padding: 28px;
+  }
+
+  /* ── INTRO ── */
+  .intro {
+    background: var(--verde-pale);
+    border: 1px solid var(--verde-light);
+    border-radius: 10px;
+    padding: 13px 16px;
+    font-size: 12.5px;
+    color: var(--gray-700);
+    line-height: 1.65;
+    margin-bottom: 24px;
+  }
+  .intro strong { color: var(--verde); }
+
+  /* ── STEPS ── */
+  .steps { display: flex; flex-direction: column; gap: 0; }
+
+  .step {
+    display: flex;
+    gap: 16px;
+    padding: 16px 0;
+    border-bottom: 1px solid var(--gray-200);
+    position: relative;
+  }
+  .step:last-child { border-bottom: none; padding-bottom: 0; }
+
+  .step-num {
+    flex-shrink: 0;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    background: var(--verde);
+    color: white;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 14px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 1px;
+  }
+  .step.highlight .step-num {
+    background: var(--gold);
+    color: var(--gray-900);
+    box-shadow: 0 0 0 3px rgba(201,168,76,0.2);
+  }
+
+  .step-content { flex: 1; }
+
+  .step-title {
+    font-size: 13.5px;
+    font-weight: 600;
+    color: var(--verde);
+    margin-bottom: 4px;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+  }
+  .step.highlight .step-title { color: #92400E; }
+
+  .step-emoji { font-size: 15px; }
+
+  .step-desc {
+    font-size: 12.5px;
+    color: var(--gray-700);
+    line-height: 1.65;
+  }
+
+  .step-desc code {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    background: var(--gray-50);
+    border: 1px solid var(--gray-200);
+    border-radius: 4px;
+    padding: 1px 5px;
+    color: var(--verde-mid);
+  }
+
+  /* ── ALERT BOX ── */
+  .alert {
+    display: flex;
+    gap: 10px;
+    background: var(--gold-pale);
+    border: 1px solid #FDE68A;
+    border-left: 3px solid var(--gold);
+    border-radius: 8px;
+    padding: 10px 14px;
+    margin-top: 8px;
+    font-size: 12px;
+    color: #78350F;
+    line-height: 1.55;
+  }
+  .alert-icon { font-size: 14px; flex-shrink: 0; margin-top: 1px; }
+
+  .note {
+    display: flex;
+    gap: 10px;
+    background: var(--rojo-pale);
+    border: 1px solid #FECACA;
+    border-left: 3px solid var(--rojo);
+    border-radius: 8px;
+    padding: 10px 14px;
+    margin-top: 8px;
+    font-size: 12px;
+    color: var(--rojo);
+    line-height: 1.55;
+  }
+
+  /* ── PIPELINE MINI ── */
+  .pipeline-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    margin-top: 8px;
+  }
+  .pip-item {
+    background: var(--verde-pale);
+    border: 1px solid var(--verde-light);
+    border-radius: 7px;
+    padding: 8px 10px;
+    font-size: 11px;
+    color: var(--verde);
+    line-height: 1.4;
+  }
+  .pip-item strong {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    display: block;
+    color: var(--verde-mid);
+    margin-bottom: 2px;
+  }
+
+  /* ── OUTPUTS ── */
+  .outputs-box {
+    background: var(--gray-50);
+    border: 1px solid var(--gray-200);
+    border-radius: 8px;
+    padding: 10px 14px;
+    margin-top: 8px;
+    font-size: 12px;
+    color: var(--gray-700);
+    line-height: 1.7;
+  }
+  .outputs-box code {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    color: var(--verde-mid);
+  }
+
+  /* ── FOOTER ── */
+  .footer {
+    margin-top: 20px;
+    text-align: center;
+    font-size: 11px;
+    color: var(--gray-500);
+    line-height: 1.6;
+  }
+  .footer a { color: var(--verde-mid); }
+
+  @media print {
+    body { padding: 0; background: white; }
+    .page { max-width: 100%; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="header-left">
+      <div class="header-tag">Guía de uso rápido · Google Colab</div>
+      <div class="header-title">Pipeline Predictivo de Rosas</div>
+      <div class="header-sub">FloriExport S.A. (nombre ficticio) · UEES Maestría en IA · Grupo 14 · 2026</div>
+    </div>
+    <div class="header-rose">🌹</div>
+  </div>
+
+  <!-- BODY -->
+  <div class="body">
+
+    <!-- INTRO -->
+    <div class="intro">
+      Este notebook ejecuta el <strong>pipeline operativo semanal</strong> del sistema de predicción de tallos de rosas. Lee datos históricos y semanales desde Google Drive, aplica el modelo <strong>LightGBM + Optuna</strong> y genera un reporte Excel con predicciones y métricas comparativas frente al experto humano.
+    </div>
+
+    <!-- STEPS -->
+    <div class="steps">
+
+      <!-- PASO 1 -->
+      <div class="step highlight">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <div class="step-title"><span class="step-emoji">📁</span> Antes de abrir Colab: subir la carpeta <code>rosas</code> a Google Drive</div>
+          <div class="step-desc">
+            En tu Google Drive (raíz de <strong>Mi unidad</strong>), sube la carpeta completa llamada exactamente <code>rosas</code>, con su estructura interna intacta. El notebook la busca en la ruta <code>MyDrive/rosas/</code>.
+          </div>
+          <div class="alert">
+            <div class="alert-icon">⚠️</div>
+            <div>La carpeta debe llamarse <strong>rosas</strong> (en minúsculas, sin tildes). Dentro deben existir las subcarpetas <code>dataset/</code>, <code>semanas/</code>, <code>modelos/</code> y <code>reportes/</code>. Si alguna falta, el notebook la crea automáticamente pero sin los archivos necesarios el pipeline no puede ejecutarse.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PASO 2 -->
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-content">
+          <div class="step-title"><span class="step-emoji">🔗</span> Abrir el notebook y conectar Google Drive</div>
+          <div class="step-desc">
+            Abre el notebook desde el link compartido. Al ejecutar la celda de la <strong>Sección 1 — Configuración</strong>, aparecerá una ventana emergente solicitando permisos para acceder a Google Drive. Haz clic en <em>"Conectar a Google Drive"</em> y autoriza con la cuenta donde subiste la carpeta <code>rosas</code>.
+          </div>
+          <div class="alert">
+            <div class="alert-icon">💡</div>
+            <div>Usa la <strong>misma cuenta de Google</strong> donde está la carpeta <code>rosas</code>. Si el Drive montado no tiene la carpeta, el notebook indicará error de ruta en la Sección 2.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PASO 3 -->
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-content">
+          <div class="step-title"><span class="step-emoji">⚙️</span> Ejecutar Secciones 1 y 2 — Entorno y datos históricos</div>
+          <div class="step-desc">
+            Ejecuta las celdas de las <strong>Secciones 1 y 2</strong> en orden. La Sección 1 instala librerías (lightgbm, optuna) y monta el Drive. La Sección 2 carga los 9 archivos Excel del histórico desde <code>rosas/dataset/</code> y rellena datos climáticos faltantes vía API ERA5 (Open-Meteo, coordenadas de la finca en Cayambe).
+          </div>
+          <div class="note">
+            <div>⏱ La Sección 1 tarda ~2 min la primera vez por la instalación de dependencias. Las siguientes ejecuciones en la misma sesión son inmediatas.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PASO 4 -->
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-content">
+          <div class="step-title"><span class="step-emoji">🧠</span> Ejecutar Secciones 3 y 4 — Feature engineering y modelo</div>
+          <div class="step-desc">
+            La <strong>Sección 3</strong> construye las 20 variables del modelo: lags temporales (<code>lag_1</code>, <code>lag_4</code>, <code>lag_52</code>), variables agronómicas (<code>tallos_esp_ciclo</code>, <code>plantas_prod</code>, <code>tallos_por_planta</code>) y variables climáticas. La <strong>Sección 4</strong> carga el modelo entrenado (<code>modelo_activo.pkl</code>) desde <code>rosas/modelos/</code>.
+          </div>
+        </div>
+      </div>
+
+      <!-- PASO 5 -->
+      <div class="step">
+        <div class="step-num">5</div>
+        <div class="step-content">
+          <div class="step-title"><span class="step-emoji">▶️</span> Ejecutar Sección 5 — Pipeline semanal completo</div>
+          <div class="step-desc">
+            Esta es la ejecución principal. Al correr la <strong>Sección 5</strong> se desencadenan los 9 pasos del pipeline:
+          </div>
+          <div class="pipeline-grid">
+            <div class="pip-item"><strong>Paso 1</strong>Carga modelo activo desde Drive</div>
+            <div class="pip-item"><strong>Paso 2</strong>Lee archivos operativos semanales</div>
+            <div class="pip-item"><strong>Paso 3</strong>Rellena datos climáticos ERA5</div>
+            <div class="pip-item"><strong>Paso 4</strong>Construye 20 features por serie</div>
+            <div class="pip-item"><strong>Paso 5</strong>Predice tallos semana T+1</div>
+            <div class="pip-item"><strong>Paso 6</strong>Evalúa predicción semana T-1</div>
+            <div class="pip-item"><strong>Paso 7</strong>Genera Excel de reporte (5 hojas)</div>
+            <div class="pip-item"><strong>Paso 8</strong>Envía correo automático</div>
+            <div class="pip-item"><strong>Paso 9</strong>Verifica si reentrenar el modelo</div>
+          </div>
+          <div class="outputs-box">
+            <strong>📤 Salidas generadas en <code>rosas/reportes/</code>:</strong><br>
+            <code>YYYY_SS_reporte.xlsx</code> — 5 hojas: predicción T+1 · evaluación T-1 · comparativa completa · semáforos MAE/MAPE · historial acumulado<br>
+            <code>YYYY_SS_comparativa.png</code> — gráfico visual modelo vs. experto vs. real
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /steps -->
+
+  </div><!-- /body -->
+
+  <!-- FOOTER -->
+  <div class="footer">
+    Notebook ejecutable: <a href="https://colab.research.google.com/drive/12Wp1F5IOTaUTMl94DHCZumBNl3h5hwKB?usp=sharing" target="_blank">colab.research.google.com/drive/12Wp1F5IOTaUTMl94DHCZumBNl3h5hwKB</a><br>
+    Enrique Pérez &amp; Fredy Aguirre · Tutora: Mgs. Alexandra Arciniegas Coral · UEES Maestría en IA · Mayo 2026
+  </div>
+
+</div>
+</body>
+</html>
