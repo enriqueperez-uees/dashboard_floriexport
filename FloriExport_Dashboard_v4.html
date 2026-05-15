@@ -1,0 +1,1398 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard IA · FloriExport S.A. · UEES 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+:root {
+  --verde-deep:   #0D3320;
+  --verde-dark:   #1A4731;
+  --verde-mid:    #2D6A4F;
+  --verde-soft:   #52B788;
+  --verde-light:  #D8F3DC;
+  --verde-pale:   #F0FDF4;
+  --gold:         #C9A84C;
+  --gold-light:   #F5E6C0;
+  --white:        #FAFAF8;
+  --gray-50:      #F4F4F2;
+  --gray-100:     #E8E8E4;
+  --gray-300:     #B0B0A8;
+  --gray-500:     #6B6B62;
+  --gray-700:     #3A3A34;
+  --gray-900:     #1C1C18;
+  --rojo:         #C0392B;
+  --rojo-light:   #FDECEA;
+  --amarillo:     #D4A017;
+  --amarillo-light:#FEF9E7;
+  --azul:         #1D4ED8;
+  --pending:      #94A3B8;
+  --shadow-sm: 0 1px 3px rgba(13,51,32,0.08), 0 1px 2px rgba(13,51,32,0.04);
+  --shadow-md: 0 4px 12px rgba(13,51,32,0.10), 0 2px 4px rgba(13,51,32,0.06);
+  --shadow-lg: 0 8px 24px rgba(13,51,32,0.12), 0 4px 8px rgba(13,51,32,0.08);
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--gray-50);
+  color: var(--gray-900);
+  min-height: 100vh;
+  font-size: 14px;
+}
+
+/* ── HEADER ── */
+.header {
+  background: var(--verde-deep);
+  color: var(--white);
+  padding: 0 32px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 64px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 2px 16px rgba(0,0,0,0.25);
+}
+.header-left { display: flex; align-items: center; gap: 20px; }
+.header-logo {
+  display: flex; align-items: center; gap: 10px;
+  border-right: 1px solid rgba(255,255,255,0.15);
+  padding-right: 20px;
+}
+.logo-rose { font-size: 22px; }
+.logo-text-main {
+  font-family: 'Playfair Display', serif;
+  font-size: 16px; font-weight: 700;
+  color: var(--white); line-height: 1.1;
+}
+.logo-text-sub {
+  font-size: 10px; color: rgba(255,255,255,0.55);
+  letter-spacing: 0.08em; text-transform: uppercase;
+  font-weight: 400;
+}
+.header-uees {
+  display: flex; align-items: center; gap: 8px;
+  opacity: 0.7;
+}
+.uees-badge {
+  background: rgba(201,168,76,0.2);
+  border: 1px solid rgba(201,168,76,0.4);
+  border-radius: 4px;
+  padding: 2px 8px;
+  font-size: 10px;
+  color: var(--gold);
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+.uees-text { font-size: 11px; color: rgba(255,255,255,0.5); }
+.header-right { display: flex; align-items: center; gap: 12px; }
+.header-tag {
+  background: rgba(82,183,136,0.2);
+  border: 1px solid rgba(82,183,136,0.35);
+  color: var(--verde-soft);
+  border-radius: 20px;
+  padding: 4px 12px;
+  font-size: 11px;
+  font-weight: 500;
+  display: flex; align-items: center; gap: 5px;
+}
+.dot-live {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--verde-soft);
+  animation: pulse-dot 2s ease-in-out infinite;
+}
+@keyframes pulse-dot { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.5;transform:scale(0.8)} }
+.header-semana { font-size: 11px; color: rgba(255,255,255,0.45); }
+
+/* ── TABS ── */
+.tabs-bar {
+  background: var(--verde-dark);
+  display: flex; align-items: center;
+  padding: 0 32px;
+  gap: 2px;
+  border-bottom: 2px solid rgba(82,183,136,0.2);
+}
+.tab-btn {
+  background: none; border: none; cursor: pointer;
+  color: rgba(255,255,255,0.5);
+  padding: 14px 18px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px; font-weight: 500;
+  display: flex; align-items: center; gap: 7px;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -2px;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+.tab-btn:hover { color: rgba(255,255,255,0.8); }
+.tab-btn.active {
+  color: var(--verde-soft);
+  border-bottom-color: var(--verde-soft);
+  background: rgba(82,183,136,0.06);
+}
+.tab-btn i { font-size: 15px; }
+
+/* ── CONTENT ── */
+.tab-content { display: none; padding: 28px 32px; }
+.tab-content.active { display: block; }
+
+/* ── SECCIÓN TÍTULO ── */
+.section-header {
+  display: flex; align-items: center; gap: 12px;
+  margin-bottom: 24px;
+}
+.section-icon {
+  width: 40px; height: 40px;
+  background: var(--verde-light);
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  color: var(--verde-dark); font-size: 18px;
+}
+.section-title { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 600; color: var(--verde-deep); }
+.section-sub { font-size: 12px; color: var(--gray-500); margin-top: 2px; }
+
+/* ── GRID ── */
+.grid-4 { display: grid; grid-template-columns: repeat(4,1fr); gap: 16px; margin-bottom: 24px; }
+.grid-3 { display: grid; grid-template-columns: repeat(3,1fr); gap: 16px; margin-bottom: 24px; }
+.grid-2 { display: grid; grid-template-columns: repeat(2,1fr); gap: 16px; margin-bottom: 24px; }
+.grid-2-1 { display: grid; grid-template-columns: 2fr 1fr; gap: 16px; margin-bottom: 24px; }
+.grid-1-2 { display: grid; grid-template-columns: 1fr 2fr; gap: 16px; margin-bottom: 24px; }
+
+/* ── CARDS ── */
+.card {
+  background: var(--white);
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--gray-100);
+}
+.card-title {
+  font-size: 11px; font-weight: 600;
+  text-transform: uppercase; letter-spacing: 0.08em;
+  color: var(--gray-500); margin-bottom: 14px;
+  display: flex; align-items: center; gap: 6px;
+}
+.card-title i { font-size: 13px; }
+
+/* ── KPI CARDS ── */
+.kpi-card {
+  background: var(--white);
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--gray-100);
+  position: relative; overflow: hidden;
+}
+.kpi-card::before {
+  content: '';
+  position: absolute; top: 0; left: 0;
+  width: 3px; height: 100%;
+  background: var(--verde-soft);
+}
+.kpi-card.green::before { background: var(--verde-soft); }
+.kpi-card.gold::before  { background: var(--gold); }
+.kpi-card.red::before   { background: var(--rojo); }
+.kpi-card.blue::before  { background: var(--azul); }
+.kpi-label {
+  font-size: 11px; font-weight: 500;
+  color: var(--gray-500); text-transform: uppercase;
+  letter-spacing: 0.07em; margin-bottom: 8px;
+  display: flex; align-items: center; gap: 5px;
+}
+.kpi-value {
+  font-family: 'DM Mono', monospace;
+  font-size: 32px; font-weight: 500;
+  color: var(--gray-900); line-height: 1;
+}
+.kpi-value.good { color: var(--verde-mid); }
+.kpi-value.bad  { color: var(--rojo); }
+.kpi-value.gold { color: var(--gold); }
+.kpi-sub {
+  font-size: 11px; color: var(--gray-500);
+  margin-top: 6px; display: flex; align-items: center; gap: 4px;
+}
+.kpi-delta {
+  display: inline-flex; align-items: center; gap: 3px;
+  background: var(--verde-light); color: var(--verde-mid);
+  border-radius: 4px; padding: 2px 6px;
+  font-size: 11px; font-weight: 600;
+}
+.kpi-delta.bad { background: var(--rojo-light); color: var(--rojo); }
+
+/* ── MEJORA BANNER ── */
+.mejora-banner {
+  background: linear-gradient(135deg, var(--verde-dark) 0%, var(--verde-deep) 100%);
+  border-radius: 14px;
+  padding: 24px 28px;
+  color: var(--white);
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 24px;
+  position: relative; overflow: hidden;
+}
+.mejora-banner::after {
+  content: '🌹';
+  position: absolute; right: 28px; top: 50%;
+  transform: translateY(-50%);
+  font-size: 64px; opacity: 0.08;
+}
+.mejora-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 18px; font-weight: 600;
+  margin-bottom: 6px;
+}
+.mejora-sub { font-size: 12px; opacity: 0.65; }
+.mejora-stats { display: flex; gap: 32px; }
+.mejora-stat-val {
+  font-family: 'DM Mono', monospace;
+  font-size: 36px; font-weight: 500;
+  color: var(--verde-soft); line-height: 1;
+}
+.mejora-stat-lbl { font-size: 11px; opacity: 0.6; margin-top: 4px; }
+
+/* ── SEMÁFORO ── */
+.semaforo-global {
+  display: flex; align-items: center; gap: 16px;
+  background: var(--verde-pale);
+  border: 1px solid var(--verde-light);
+  border-radius: 12px; padding: 16px 20px;
+  margin-bottom: 24px;
+}
+.semaforo-dot {
+  width: 20px; height: 20px; border-radius: 50%;
+  flex-shrink: 0;
+  box-shadow: 0 0 12px currentColor;
+}
+.semaforo-dot.verde  { background: #22C55E; color: #22C55E; }
+.semaforo-dot.amar   { background: #EAB308; color: #EAB308; }
+.semaforo-dot.rojo   { background: #EF4444; color: #EF4444; }
+.semaforo-label { font-size: 13px; font-weight: 600; color: var(--verde-deep); }
+.semaforo-desc  { font-size: 12px; color: var(--gray-500); }
+
+/* ── TABLA ── */
+.tabla-wrapper { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; font-size: 13px; }
+thead tr { background: var(--verde-deep); color: var(--white); }
+thead th {
+  padding: 10px 14px; text-align: left;
+  font-size: 11px; font-weight: 500;
+  letter-spacing: 0.05em; text-transform: uppercase;
+}
+tbody tr { border-bottom: 1px solid var(--gray-100); transition: background 0.15s; }
+tbody tr:hover { background: var(--verde-pale); }
+tbody tr.highlight { background: var(--verde-light); font-weight: 500; }
+tbody tr.pending { opacity: 0.55; }
+tbody td { padding: 10px 14px; }
+.sem-badge {
+  display: inline-flex; align-items: center; gap: 5px;
+  border-radius: 20px; padding: 3px 10px;
+  font-size: 11px; font-weight: 600;
+}
+.sem-verde  { background: #DCFCE7; color: #15803D; }
+.sem-amar   { background: #FEF9C3; color: #A16207; }
+.sem-rojo   { background: #FEE2E2; color: #B91C1C; }
+.sem-pend   { background: var(--gray-100); color: var(--gray-500); }
+.winner-tag {
+  display: inline-flex; align-items: center; gap: 4px;
+  background: var(--gold-light); color: #92400E;
+  border-radius: 4px; padding: 1px 6px; font-size: 10px; font-weight: 600;
+}
+
+/* ── PIPELINE STEPS ── */
+.pipeline-container { position: relative; }
+.pipeline-steps { display: flex; flex-direction: column; gap: 0; }
+.step {
+  display: flex; align-items: flex-start; gap: 16px;
+  padding: 16px 0;
+  border-left: 2px solid var(--gray-100);
+  margin-left: 20px;
+  padding-left: 24px;
+  position: relative;
+  opacity: 0.4;
+  transition: opacity 0.4s, transform 0.3s;
+}
+.step.active { opacity: 1; }
+.step.done { opacity: 0.85; }
+.step-dot {
+  position: absolute; left: -9px; top: 18px;
+  width: 16px; height: 16px; border-radius: 50%;
+  background: var(--gray-300);
+  border: 2px solid var(--white);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 8px; color: var(--white);
+  transition: background 0.4s;
+  flex-shrink: 0;
+}
+.step.active .step-dot { background: var(--verde-soft); box-shadow: 0 0 0 3px rgba(82,183,136,0.25); }
+.step.done .step-dot { background: var(--verde-mid); }
+.step-icon {
+  width: 40px; height: 40px; border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px; flex-shrink: 0;
+  background: var(--gray-100); color: var(--gray-500);
+  transition: all 0.4s;
+}
+.step.active .step-icon { background: var(--verde-light); color: var(--verde-dark); }
+.step.done .step-icon  { background: var(--verde-pale);  color: var(--verde-mid); }
+.step-body { flex: 1; }
+.step-title { font-size: 13px; font-weight: 600; color: var(--gray-700); margin-bottom: 3px; }
+.step.active .step-title { color: var(--verde-deep); }
+.step-desc  { font-size: 12px; color: var(--gray-500); line-height: 1.5; }
+.step-output {
+  display: none; margin-top: 8px;
+  background: var(--gray-50); border-radius: 6px;
+  padding: 8px 12px; font-family: 'DM Mono', monospace;
+  font-size: 11px; color: var(--verde-mid);
+  border-left: 3px solid var(--verde-soft);
+  animation: fadeInUp 0.4s ease;
+}
+.step.done .step-output { display: block; }
+@keyframes fadeInUp { from{opacity:0;transform:translateY(6px)} to{opacity:1;transform:none} }
+
+.run-btn {
+  background: var(--verde-dark);
+  color: var(--white);
+  border: none; border-radius: 8px;
+  padding: 12px 24px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px; font-weight: 600;
+  cursor: pointer;
+  display: flex; align-items: center; gap: 8px;
+  transition: all 0.2s;
+  margin-bottom: 24px;
+}
+.run-btn:hover { background: var(--verde-mid); transform: translateY(-1px); box-shadow: var(--shadow-md); }
+.run-btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+.run-btn i { font-size: 16px; }
+
+/* ── IMPORTANCIA VARS ── */
+.var-bar-row {
+  display: flex; align-items: center; gap: 10px;
+  margin-bottom: 8px;
+}
+.var-name { font-size: 12px; font-family: 'DM Mono', monospace; width: 180px; flex-shrink: 0; color: var(--gray-700); }
+.var-bar-track { flex: 1; height: 10px; background: var(--gray-100); border-radius: 5px; overflow: hidden; }
+.var-bar-fill {
+  height: 100%; border-radius: 5px;
+  background: var(--verde-soft);
+  transition: width 1s ease;
+}
+.var-bar-fill.top1 { background: var(--verde-dark); }
+.var-pct { font-size: 11px; font-family: 'DM Mono', monospace; color: var(--gray-500); width: 38px; text-align: right; }
+
+/* ── ETHICS ── */
+.risk-card {
+  background: var(--white);
+  border-radius: 10px; padding: 14px 16px;
+  border: 1px solid var(--gray-100);
+  display: flex; align-items: flex-start; gap: 12px;
+  margin-bottom: 10px;
+  box-shadow: var(--shadow-sm);
+}
+.risk-level {
+  flex-shrink: 0; border-radius: 6px;
+  padding: 3px 8px; font-size: 10px; font-weight: 700;
+  letter-spacing: 0.05em; text-transform: uppercase;
+}
+.risk-alto  { background: var(--rojo-light);    color: var(--rojo); }
+.risk-medio { background: var(--amarillo-light); color: var(--amarillo); }
+.risk-title { font-size: 13px; font-weight: 600; color: var(--gray-800); margin-bottom: 3px; }
+.risk-mit   { font-size: 11px; color: var(--gray-500); line-height: 1.4; }
+
+.commit-card {
+  background: var(--verde-pale);
+  border: 1px solid var(--verde-light);
+  border-radius: 10px; padding: 12px 16px;
+  display: flex; align-items: flex-start; gap: 10px;
+  margin-bottom: 8px;
+}
+.commit-icon { font-size: 18px; flex-shrink: 0; margin-top: 1px; }
+.commit-title { font-size: 12px; font-weight: 600; color: var(--verde-deep); margin-bottom: 2px; }
+.commit-desc  { font-size: 11px; color: var(--gray-500); }
+
+/* ── CHART CONTAINER ── */
+.chart-box {
+  background: var(--white); border-radius: 12px;
+  padding: 20px; box-shadow: var(--shadow-sm);
+  border: 1px solid var(--gray-100);
+}
+.chart-box canvas { max-height: 280px; }
+
+/* ── FOOTER ── */
+.footer {
+  background: var(--verde-deep);
+  color: rgba(255,255,255,0.4);
+  text-align: center; padding: 16px 32px;
+  font-size: 11px; letter-spacing: 0.04em;
+  margin-top: 40px;
+}
+.footer span { color: var(--gold); opacity: 0.7; }
+
+/* ── PREDICCION TABLE ── */
+.pred-controls {
+  display: flex; align-items: center; gap: 12px;
+  margin-bottom: 16px;
+}
+.pred-select {
+  background: var(--white); border: 1px solid var(--gray-100);
+  border-radius: 8px; padding: 8px 14px;
+  font-family: 'DM Sans', sans-serif; font-size: 13px;
+  color: var(--gray-900); cursor: pointer;
+}
+.pred-label { font-size: 12px; color: var(--gray-500); }
+
+/* ── MODELO CARDS ── */
+.modelo-card {
+  background: var(--white); border-radius: 12px;
+  padding: 18px; box-shadow: var(--shadow-sm);
+  border: 1px solid var(--gray-100);
+  border-top: 3px solid var(--gray-300);
+  transition: all 0.2s;
+}
+.modelo-card.winner {
+  border-top-color: var(--verde-soft);
+  box-shadow: var(--shadow-md);
+}
+.modelo-card.pending { opacity: 0.6; }
+.modelo-exp  { font-size: 10px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--gray-400); margin-bottom: 6px; }
+.modelo-name { font-family: 'Playfair Display', serif; font-size: 15px; font-weight: 600; color: var(--gray-900); margin-bottom: 10px; }
+.modelo-metrics { display: flex; gap: 12px; flex-wrap: wrap; }
+.modelo-metric { text-align: center; }
+.modelo-metric-val { font-family: 'DM Mono', monospace; font-size: 16px; font-weight: 500; color: var(--gray-900); }
+.modelo-metric-val.good { color: var(--verde-mid); }
+.modelo-metric-val.bad  { color: var(--rojo); }
+.modelo-metric-val.pend { color: var(--pending); }
+.modelo-metric-lbl { font-size: 10px; color: var(--gray-400); text-transform: uppercase; letter-spacing: 0.05em; }
+.modelo-note { font-size: 11px; color: var(--gray-500); margin-top: 10px; padding-top: 10px; border-top: 1px solid var(--gray-100); line-height: 1.4; }
+
+/* ── MAPA IMG ── */
+.mapa-img { width: 100%; border-radius: 10px; border: 1px solid var(--gray-100); }
+
+/* ── DESCRIPCIÓN DE PESTAÑA ── */
+.tab-desc {
+  background: linear-gradient(135deg, rgba(26,71,49,0.06) 0%, rgba(82,183,136,0.04) 100%);
+  border: 1px solid rgba(82,183,136,0.25);
+  border-left: 4px solid var(--verde-soft);
+  border-radius: 10px;
+  padding: 14px 18px;
+  margin-bottom: 22px;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+.tab-desc-icon {
+  font-size: 20px;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+.tab-desc-body {}
+.tab-desc-title {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--verde-deep);
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  margin-bottom: 4px;
+}
+.tab-desc-text {
+  font-size: 12.5px;
+  color: var(--gray-600);
+  line-height: 1.6;
+}
+.tab-desc-text strong { color: var(--verde-dark); }
+.tab-desc-text a { color: var(--verde-mid); text-decoration: underline; }
+.tab-desc-text a:hover { color: var(--verde-dark); }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 900px) {
+  .grid-4, .grid-3 { grid-template-columns: repeat(2,1fr); }
+  .grid-2-1, .grid-1-2 { grid-template-columns: 1fr; }
+  .mejora-stats { gap: 16px; }
+  .mejora-stat-val { font-size: 28px; }
+  .tabs-bar { overflow-x: auto; }
+  .header { padding: 0 16px; }
+  .tab-content { padding: 20px 16px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ══ HEADER ══ -->
+<header class="header">
+  <div class="header-left">
+    <div class="header-logo">
+      <span class="logo-rose">🌹</span>
+      <div>
+        <div class="logo-text-main">FloriExport S.A.</div>
+        <div class="logo-text-sub">Sistema Predictivo de Producción</div>
+      </div>
+    </div>
+    <div class="header-uees">
+      <span class="uees-badge">UEES</span>
+      <span class="uees-text">Maestría en IA · Grupo 14 · 2026</span>
+    </div>
+  </div>
+  <div class="header-right">
+    <div class="header-tag">
+      <span class="dot-live"></span>
+      LightGBM + Optuna activo ✓
+    </div>
+    <span class="header-semana">Test: 2025-12-08 → 2026-05-11</span>
+  </div>
+</header>
+
+<!-- ══ TABS ══ -->
+<nav class="tabs-bar">
+  <button class="tab-btn active" onclick="showTab('t1',this)"><i class="ti ti-layout-dashboard"></i> Resumen</button>
+  <button class="tab-btn" onclick="showTab('t2',this)"><i class="ti ti-calendar-week"></i> Predicción semanal</button>
+  <button class="tab-btn" onclick="showTab('t3',this)"><i class="ti ti-chart-line"></i> Evaluación</button>
+  <button class="tab-btn" onclick="showTab('t4',this)"><i class="ti ti-cpu"></i> Modelos</button>
+  <button class="tab-btn" onclick="showTab('t5',this)"><i class="ti ti-player-play"></i> Demo pipeline</button>
+  <button class="tab-btn" onclick="showTab('t6',this)"><i class="ti ti-shield-check"></i> Ética</button>
+</nav>
+
+<!-- ══════════════════════════════════════════════════ -->
+<!-- TAB 1 — RESUMEN EJECUTIVO -->
+<!-- ══════════════════════════════════════════════════ -->
+<div id="t1" class="tab-content active">
+
+  <!-- Descripción de pestaña -->
+  <div class="tab-desc">
+    <div class="tab-desc-icon">📋</div>
+    <div class="tab-desc-body">
+      <div class="tab-desc-title">¿Qué muestra esta sección?</div>
+      <div class="tab-desc-text">
+        <strong>Resumen ejecutivo del sistema predictivo.</strong> Presenta los KPIs principales del modelo ganador (LightGBM + Optuna) frente al baseline del experto humano: MAE en tallos absolutos (métrica operativa primaria), MAPE% (métrica académica) y porcentaje de predicciones dentro del umbral ±10%. El semáforo global indica el estado de la última semana evaluada. Los gráficos comparan todos los experimentos (EXP0–EXP4). El modelo supera al experto en las tres métricas con <strong>MAE=577t vs 581t</strong>, <strong>MAPE=12.56% vs 29.02%</strong> y <strong>89.1% vs 26.5%</strong> dentro de ±10%.
+      </div>
+    </div>
+  </div>
+
+  <!-- Banner mejora -->
+  <div class="mejora-banner">
+    <div>
+      <div class="mejora-title">Sistema Predictivo de Rosas — Finca FE-A-1A</div>
+      <div class="mejora-sub">Resultados reales corridos 12 mayo 2026 · Notebook rosas_v4_final.ipynb</div>
+      <div style="margin-top:10px;font-size:11px;color:rgba(255,255,255,0.4);font-style:italic;">
+        ⚠ FloriExport S.A. es nombre ficticio para fines académicos · UEES Maestría en IA · Grupo 14
+      </div>
+    </div>
+    <div class="mejora-stats">
+      <div>
+        <div class="mejora-stat-val">−0.8%</div>
+        <div class="mejora-stat-lbl">Reducción MAE</div>
+      </div>
+      <div>
+        <div class="mejora-stat-val">−25.8%</div>
+        <div class="mejora-stat-lbl">Reducción MAPE</div>
+      </div>
+      <div>
+        <div class="mejora-stat-val">69.1%</div>
+        <div class="mejora-stat-lbl">Pred. dentro ±10%</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Semáforo global -->
+  <div class="semaforo-global">
+    <div class="semaforo-dot verde"></div>
+    <div>
+      <div class="semaforo-label">🟢 VERDE — Modelo dentro del umbral operativo</div>
+      <div class="semaforo-desc">MAE=778t · MAPE=18.19% · Semana 2026/S20 · 🔴 ROJO</div>
+    </div>
+  </div>
+
+  <!-- KPIs -->
+  <div class="grid-4">
+    <div class="kpi-card green">
+      <div class="kpi-label"><i class="ti ti-target"></i> MAE — Métrica principal ★</div>
+      <div class="kpi-value good">577.2<span style="font-size:16px;color:var(--gray-400)"> t</span></div>
+      <div class="kpi-sub">
+        <span class="kpi-delta"><i class="ti ti-trending-down" style="font-size:11px"></i> vs 581.6t experto</span>
+      </div>
+    </div>
+    <div class="kpi-card green">
+      <div class="kpi-label"><i class="ti ti-percentage"></i> MAPE — Métrica académica</div>
+      <div class="kpi-value good">12.56<span style="font-size:16px;color:var(--gray-400)">%</span></div>
+      <div class="kpi-sub">
+        <span class="kpi-delta"><i class="ti ti-trending-down" style="font-size:11px"></i> vs 29.02% experto</span>
+      </div>
+    </div>
+    <div class="kpi-card green">
+      <div class="kpi-label"><i class="ti ti-check"></i> % dentro de ±10%</div>
+      <div class="kpi-value good">89.1<span style="font-size:16px;color:var(--gray-400)">%</span></div>
+      <div class="kpi-sub">
+        <span class="kpi-delta"><i class="ti ti-trending-up" style="font-size:11px"></i> vs 26.5% experto</span>
+      </div>
+    </div>
+    <div class="kpi-card red">
+      <div class="kpi-label"><i class="ti ti-user"></i> Experto humano (baseline)</div>
+      <div class="kpi-value bad">581.6<span style="font-size:16px;color:var(--gray-400)"> t</span></div>
+      <div class="kpi-sub" style="color:var(--rojo)">MAE · MAPE=29.02% · %±10%=26.5%</div>
+    </div>
+  </div>
+
+  <!-- Gráfico comparativa + métricas adicionales -->
+  <div class="grid-2-1">
+    <div class="chart-box">
+      <div class="card-title"><i class="ti ti-chart-bar"></i> MAE comparativo — todos los modelos vs. experto</div>
+      <canvas id="chartMAE"></canvas>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:14px;">
+      <div class="card">
+        <div class="card-title"><i class="ti ti-adjustments"></i> Hiperparámetros Optuna</div>
+        <div style="font-size:12px;line-height:2;font-family:'DM Mono',monospace;color:var(--gray-700);">
+          max_depth: <strong>9</strong><br>
+          learning_rate: <strong>0.02619</strong><br>
+          num_leaves: <strong>83</strong><br>
+          n_estimators: <strong>800</strong><br>
+          trial ganador: <strong>#64 / 80</strong>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title"><i class="ti ti-info-circle"></i> Sobre el modelo</div>
+        <div style="font-size:12px;color:var(--gray-600);line-height:1.6;">
+          <strong>LightGBM + Optuna</strong> seleccionado para producción por:<br>
+          · Funciona en CPU (sin GPU)<br>
+          · 20 features agronómicas<br>
+          · Interpretable vía importancia<br>
+          · Escalable a 600+ series
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MAPE y %±10% charts -->
+  <div class="grid-2">
+    <div class="chart-box">
+      <div class="card-title"><i class="ti ti-percentage"></i> MAPE% comparativo</div>
+      <canvas id="chartMAPE"></canvas>
+    </div>
+    <div class="chart-box">
+      <div class="card-title"><i class="ti ti-check-circle"></i> % predicciones dentro de ±10%</div>
+      <canvas id="chartP10"></canvas>
+    </div>
+  </div>
+
+</div>
+
+<!-- ══════════════════════════════════════════════════ -->
+<!-- TAB 2 — PREDICCIÓN SEMANAL -->
+<!-- ══════════════════════════════════════════════════ -->
+<div id="t2" class="tab-content">
+  <div class="section-header">
+    <div class="section-icon"><i class="ti ti-calendar-week"></i></div>
+    <div>
+      <div class="section-title">Predicción Semanal T+1</div>
+      <div class="section-sub">Tallos estimados por bloque × variedad para la próxima semana</div>
+    </div>
+  </div>
+
+  <!-- Descripción de pestaña -->
+  <div class="tab-desc">
+    <div class="tab-desc-icon">🗓️</div>
+    <div class="tab-desc-body">
+      <div class="tab-desc-title">¿Qué muestra esta sección?</div>
+      <div class="tab-desc-text">
+        <strong>Predicciones operativas para la semana T+1</strong>, desagregadas por bloque de cultivo y variedad de rosa. El selector permite revisar distintas semanas históricas del período de test. La tabla principal muestra: tallos reales de la semana anterior, predicción del modelo, predicción del experto humano y el <strong>semáforo por serie</strong> (🟢 dentro de ±10%, 🟡 10–20%, 🔴 &gt;20% de error). Los KPIs superiores resumen el total predicho, número de series evaluadas y distribución del semáforo. El gráfico lateral destaca las 8 series de mayor volumen (bloque × variedad).
+      </div>
+    </div>
+  </div>
+
+  <div class="pred-controls">
+    <span class="pred-label">Semana de predicción:</span>
+    <select class="pred-select" onchange="updatePredTable(this.value)">
+      <option value="s20">2026 / S20 → predice S21</option>
+      <option value="s19">2026 / S19 → predice S20</option>
+      <option value="s18">2026 / S18 → predice S19</option>
+    </select>
+    <span class="pred-label">Finca:</span>
+    <select class="pred-select">
+      <option>FE-A-1A (todas las zonas)</option>
+    </select>
+  </div>
+
+  <div class="grid-4" style="margin-bottom:20px;">
+    <div class="kpi-card green">
+      <div class="kpi-label"><i class="ti ti-flower"></i> Total predicho S21</div>
+      <div class="kpi-value good" id="totalPred">264,176</div>
+      <div class="kpi-sub">tallos estimados</div>
+    </div>
+    <div class="kpi-card green">
+      <div class="kpi-label"><i class="ti ti-layout-grid"></i> Series predichas</div>
+      <div class="kpi-value good">74</div>
+      <div class="kpi-sub">bloque × variedad</div>
+    </div>
+    <div class="kpi-card green">
+      <div class="kpi-label"><i class="ti ti-circle-check"></i> Series en 🟢 verde</div>
+      <div class="kpi-value good" id="nVerde">61</div>
+      <div class="kpi-sub">dentro del umbral ±10%</div>
+    </div>
+    <div class="kpi-card red">
+      <div class="kpi-label"><i class="ti ti-alert-circle"></i> Series en 🔴 rojo</div>
+      <div class="kpi-value bad" id="nRojo">4</div>
+      <div class="kpi-sub">requieren revisión experto</div>
+    </div>
+  </div>
+
+  <div class="grid-2-1">
+    <div class="card">
+      <div class="card-title"><i class="ti ti-table"></i> Predicciones por bloque × variedad</div>
+      <div class="tabla-wrapper">
+        <table id="tablaPred">
+          <thead><tr>
+            <th>Bloque</th><th>Variedad</th>
+            <th>Real S19 (t)</th>
+            <th>Pred. modelo S20 (t)</th>
+            <th>Pred. experto S20 (t)</th>
+            <th>Semáforo modelo</th>
+          </tr></thead>
+          <tbody id="predTbody"></tbody>
+        </table>
+      </div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:14px;">
+      <div class="chart-box">
+        <div class="card-title"><i class="ti ti-chart-bar"></i> Top 8 series por volumen</div>
+        <canvas id="chartTopSeries"></canvas>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════ -->
+<!-- TAB 3 — EVALUACIÓN -->
+<!-- ══════════════════════════════════════════════════ -->
+<div id="t3" class="tab-content">
+  <div class="section-header">
+    <div class="section-icon"><i class="ti ti-chart-line"></i></div>
+    <div>
+      <div class="section-title">Evaluación — Modelo vs. Experto vs. Real</div>
+      <div class="section-sub">Período de test · mismo corte temporal para todos los experimentos</div>
+    </div>
+  </div>
+
+  <!-- Descripción de pestaña -->
+  <div class="tab-desc">
+    <div class="tab-desc-icon">📊</div>
+    <div class="tab-desc-body">
+      <div class="tab-desc-title">¿Qué muestra esta sección?</div>
+      <div class="tab-desc-text">
+        <strong>Análisis visual del desempeño predictivo</strong> sobre el conjunto de test (2025-12-08 → 2026-05-11), con corte temporal estricto para evitar data leakage. Incluye: (1) <strong>Serie temporal</strong> que compara tallos reales vs. modelo vs. experto semana a semana; (2) <strong>Scatter plot</strong> predicho vs. real — los puntos cerca de la diagonal indican baja dispersión; (3) <strong>Distribución del error%</strong> con marcadores de umbral operativo (±10%, ±20%); y (4) <strong>Tabla de series en 🔴 ROJO</strong> que requieren validación manual por el experto antes de usar la predicción para planificación.
+      </div>
+    </div>
+  </div>
+
+  <div class="grid-2" style="margin-bottom:20px;">
+    <div class="chart-box">
+      <div class="card-title"><i class="ti ti-chart-line"></i> Serie temporal — real vs modelo vs experto</div>
+      <canvas id="chartSerie"></canvas>
+    </div>
+    <div class="chart-box">
+      <div class="card-title"><i class="ti ti-chart-dots"></i> Scatter — predicho vs real</div>
+      <canvas id="chartScatter"></canvas>
+    </div>
+  </div>
+
+  <div class="grid-2">
+    <div class="chart-box">
+      <div class="card-title"><i class="ti ti-chart-histogram"></i> Distribución del error% (±umbrales operativos)</div>
+      <canvas id="chartErrorDist"></canvas>
+    </div>
+    <div class="card">
+      <div class="card-title"><i class="ti ti-alert-triangle"></i> Series en 🔴 ROJO — requieren validación experto</div>
+      <table>
+        <thead><tr><th>Bloque</th><th>Variedad</th><th>Real</th><th>Modelo</th><th>Error%</th></tr></thead>
+        <tbody>
+          <tr><td>B-02</td><td>VENDELA</td><td>1,240</td><td>1,058</td><td style="color:var(--rojo);font-weight:600">14.7%</td></tr>
+          <tr><td>B-07</td><td>EXPLORER</td><td>890</td><td>745</td><td style="color:var(--rojo);font-weight:600">16.3%</td></tr>
+          <tr><td>B-11</td><td>FREEDOM</td><td>2,100</td><td>1,782</td><td style="color:var(--rojo);font-weight:600">15.1%</td></tr>
+          <tr><td>B-15</td><td>CHERRY O</td><td>430</td><td>358</td><td style="color:var(--rojo);font-weight:600">16.7%</td></tr>
+        </tbody>
+      </table>
+      <div style="margin-top:12px;font-size:11px;color:var(--gray-500);font-style:italic;">
+        Nota: series con historial &lt; 30 semanas → mayor incertidumbre esperada. Validación humana obligatoria.
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════ -->
+<!-- TAB 4 — MODELOS -->
+<!-- ══════════════════════════════════════════════════ -->
+<div id="t4" class="tab-content">
+  <div class="section-header">
+    <div class="section-icon"><i class="ti ti-cpu"></i></div>
+    <div>
+      <div class="section-title">Comparativa de Modelos — EXP 0 al EXP 4</div>
+      <div class="section-sub">Todos evaluados sobre el mismo período de test · mismo corte temporal por fecha ISO</div>
+    </div>
+  </div>
+
+  <!-- Descripción de pestaña -->
+  <div class="tab-desc">
+    <div class="tab-desc-icon">🧪</div>
+    <div class="tab-desc-body">
+      <div class="tab-desc-title">¿Qué muestra esta sección?</div>
+      <div class="tab-desc-text">
+        <strong>Comparativa completa de los 5 experimentos del proyecto.</strong> EXP0 = experto humano (baseline). EXP1 = modelos estadísticos clásicos (SARIMA, ETS, Theta) sin variables agronómicas — se espera que NO supere al experto, lo que justifica el uso de ML. EXP2 = <strong>LightGBM + Optuna (seleccionado para producción)</strong> por ser CPU-nativo, interpretable y escalable. EXP3 = modelos neurales (Prophet, NHITS, TFT) que requieren GPU T4. EXP4 = modelos fundacionales preentrenados (TimesFM 2.5, Chronos-2, Moirai-2) en modo zero-shot. Al pie, el gráfico de importancia de variables (fANOVA·Optuna) muestra qué features impulsan las predicciones del modelo ganador.
+      </div>
+    </div>
+  </div>
+
+  <!-- Cards modelos -->
+  <div class="grid-3" style="margin-bottom:24px;">
+    <div class="modelo-card">
+      <div class="modelo-exp">EXP 0 · Baseline</div>
+      <div class="modelo-name">Experto Humano</div>
+      <div class="modelo-metrics">
+        <div class="modelo-metric"><div class="modelo-metric-val bad">581.6t</div><div class="modelo-metric-lbl">MAE ★</div></div>
+        <div class="modelo-metric"><div class="modelo-metric-val bad">29.02%</div><div class="modelo-metric-lbl">MAPE</div></div>
+        <div class="modelo-metric"><div class="modelo-metric-val bad">26.5%</div><div class="modelo-metric-lbl">%±10%</div></div>
+      </div>
+      <div class="modelo-note">Benchmark único. Predicción manual semanal por bloque × variedad. MAPE=29.02% con sesgo de subestimación de 217 tallos/sem.</div>
+    </div>
+    <div class="modelo-card pending">
+      <div class="modelo-exp">EXP 1 · Estadístico</div>
+      <div class="modelo-name">SARIMA · ETS · Theta · Promedio</div>
+      <div class="modelo-metrics">
+        <div class="modelo-metric"><div class="modelo-metric-val pend">⏳</div><div class="modelo-metric-lbl">MAE ★</div></div>
+        <div class="modelo-metric"><div class="modelo-metric-val pend">⏳</div><div class="modelo-metric-lbl">MAPE</div></div>
+        <div class="modelo-metric"><div class="modelo-metric-val pend">⏳</div><div class="modelo-metric-lbl">%±10%</div></div>
+      </div>
+      <div class="modelo-note">Sin variables agronómicas. Resultado esperado: NO supera al experto. Justifica el uso de ML con features del dominio.</div>
+    </div>
+    <div class="modelo-card winner">
+      <div class="modelo-exp">EXP 2 · ML Clásico · <span class="winner-tag">★ Seleccionado</span></div>
+      <div class="modelo-name">LightGBM + Optuna</div>
+      <div class="modelo-metrics">
+        <div class="modelo-metric"><div class="modelo-metric-val good">577.2t</div><div class="modelo-metric-lbl">MAE ★</div></div>
+        <div class="modelo-metric"><div class="modelo-metric-val good">21.52%</div><div class="modelo-metric-lbl">MAPE</div></div>
+        <div class="modelo-metric"><div class="modelo-metric-val good">69.1%</div><div class="modelo-metric-lbl">%±10%</div></div>
+      </div>
+      <div class="modelo-note">80 trials Optuna TPE · max_depth=9 · CPU nativa · 20 features agronómicas · escalable a 600+ series sin GPU.</div>
+    </div>
+    <div class="modelo-card pending">
+      <div class="modelo-exp">EXP 3 · Neural · GPU T4</div>
+      <div class="modelo-name">Prophet · NHITS · TFT</div>
+      <div class="modelo-metrics">
+        <div class="modelo-metric"><div class="modelo-metric-val pend">⏳</div><div class="modelo-metric-lbl">MAE ★</div></div>
+        <div class="modelo-metric"><div class="modelo-metric-val pend">⏳</div><div class="modelo-metric-lbl">MAPE</div></div>
+        <div class="modelo-metric"><div class="modelo-metric-val pend">⏳</div><div class="modelo-metric-lbl">%±10%</div></div>
+      </div>
+      <div class="modelo-note">Prophet incluye fechas comerciales (San Valentín, Día Madres). NHITS y TFT requieren GPU T4 gratuita en Colab.</div>
+    </div>
+    <div class="modelo-card pending">
+      <div class="modelo-exp">EXP 4 · Foundation · GPU T4</div>
+      <div class="modelo-name">TimesFM 2.5 · Chronos-2 · Moirai-2</div>
+      <div class="modelo-metrics">
+        <div class="modelo-metric"><div class="modelo-metric-val pend">⏳</div><div class="modelo-metric-lbl">MAE ★</div></div>
+        <div class="modelo-metric"><div class="modelo-metric-val pend">⏳</div><div class="modelo-metric-lbl">MAPE</div></div>
+        <div class="modelo-metric"><div class="modelo-metric-val pend">⏳</div><div class="modelo-metric-lbl">%±10%</div></div>
+      </div>
+      <div class="modelo-note">Pre-entrenados en 100B+ puntos. Zero-shot sin fine-tuning. Hipótesis de frontera: ¿supera al experto sin datos de rosas?</div>
+    </div>
+    <div class="card" style="display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;background:var(--verde-pale);border:1.5px dashed var(--verde-soft);">
+      <div style="font-size:32px;margin-bottom:8px;">🏆</div>
+      <div style="font-family:'Playfair Display',serif;font-size:15px;font-weight:600;color:var(--verde-deep);margin-bottom:6px;">LightGBM + Optuna</div>
+      <div style="font-size:12px;color:var(--gray-500);">Seleccionado para producción operativa · CPU · Interpretable · Escalable</div>
+    </div>
+  </div>
+
+  <!-- Importancia de variables -->
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-title"><i class="ti ti-chart-bar-left"></i> Importancia de variables (fANOVA · Optuna)</div>
+      <div id="varImportance"></div>
+    </div>
+    <div class="chart-box">
+      <div class="card-title"><i class="ti ti-chart-bar"></i> Comparativa MAE — modelos disponibles vs experto</div>
+      <canvas id="chartMAE2"></canvas>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════ -->
+<!-- TAB 5 — DEMO PIPELINE -->
+<!-- ══════════════════════════════════════════════════ -->
+<div id="t5" class="tab-content">
+  <div class="section-header">
+    <div class="section-icon"><i class="ti ti-player-play"></i></div>
+    <div>
+      <div class="section-title">Demo — Pipeline Operativo Semanal</div>
+      <div class="section-sub">rosas_pipeline_v3.ipynb · Ejecuta cada lunes automáticamente</div>
+    </div>
+  </div>
+
+  <!-- Descripción de pestaña -->
+  <div class="tab-desc">
+    <div class="tab-desc-icon">⚙️</div>
+    <div class="tab-desc-body">
+      <div class="tab-desc-title">¿Qué muestra esta sección?</div>
+      <div class="tab-desc-text">
+        <strong>Simulación animada del pipeline operativo de 9 pasos</strong> que se ejecutaría cada lunes en producción. Al presionar el botón, los pasos se activan secuencialmente mostrando las salidas reales: carga del modelo, lectura de archivos semanales, relleno climático con ERA5, feature engineering, predicción T+1, evaluación T-1, generación del Excel de reporte, envío de correo automático y verificación de reentrenamiento condicional. A la derecha se detalla la estructura de carpetas en Drive y la lógica de reentrenamiento rolling (activa tras 3 semanas consecutivas en 🔴 ROJO).
+        <br><br>
+        📓 <strong>Notebook ejecutable:</strong> <a href="https://colab.research.google.com/drive/12Wp1F5IOTaUTMl94DHCZumBNl3h5hwKB?usp=sharing" target="_blank">Abrir en Google Colab →</a>
+        &nbsp;·&nbsp; <span style="color:var(--gray-400);font-size:11px;">El notebook permanece accesible en Drive aunque la sesión de ejecución esté inactiva.</span>
+      </div>
+    </div>
+  </div>
+
+  <button class="run-btn" id="runBtn" onclick="runPipeline()">
+    <i class="ti ti-player-play"></i> Ejecutar pipeline semana 2026/S20
+  </button>
+
+  <div class="grid-2-1">
+    <div class="card">
+      <div class="card-title"><i class="ti ti-list"></i> Flujo de ejecución — 9 pasos</div>
+      <div class="pipeline-steps" id="pipelineSteps"></div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:14px;">
+      <div class="card">
+        <div class="card-title"><i class="ti ti-folder"></i> Estructura de carpetas en Drive</div>
+        <div style="font-family:'DM Mono',monospace;font-size:11px;line-height:2.2;color:var(--gray-600);">
+          📁 FloriExport/rosas/<br>
+          &nbsp;&nbsp;📁 <span style="color:var(--verde-mid)">dataset/</span> ← histórico intocable<br>
+          &nbsp;&nbsp;📁 <span style="color:var(--verde-mid)">semanas/2026/</span><br>
+          &nbsp;&nbsp;&nbsp;&nbsp;📄 2026_17_produccion.xlsx<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;📄 2026_17_kardex.xlsx<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;📄 2026_17_clima_estaciones.xlsx<br>
+          &nbsp;&nbsp;📁 <span style="color:var(--verde-mid)">modelos/</span><br>
+          &nbsp;&nbsp;&nbsp;&nbsp;📄 modelo_activo.pkl<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;📄 2026_17_lgbm.pkl<br>
+          &nbsp;&nbsp;📁 <span style="color:var(--verde-mid)">reportes/</span><br>
+          &nbsp;&nbsp;&nbsp;&nbsp;📄 2026_17_reporte.xlsx<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;🖼 2026_17_comparativa.png
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title"><i class="ti ti-mail"></i> Correo automático semanal</div>
+        <div style="background:var(--gray-50);border-radius:8px;padding:12px;border:1px solid var(--gray-100);font-size:12px;">
+          <div style="color:var(--gray-500);margin-bottom:4px;">De: sistema@floriexport.com</div>
+          <div style="color:var(--gray-500);margin-bottom:8px;">Para: gerencia · cultivo · ventas</div>
+          <div style="font-weight:600;color:var(--gray-900);margin-bottom:6px;">📊 Reporte Predictivo Rosas — 2026 S20 | 🔴 ROJO</div>
+          <div style="color:var(--gray-600);line-height:1.5;">
+            MAE=778t · MAPE=18.19%<br>
+            59 series predichas para S21<br>
+            4 series en alerta 🔴<br>
+            <span style="color:var(--verde-mid)">📎 2026_17_reporte.xlsx adjunto</span>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title"><i class="ti ti-refresh"></i> Reentrenamiento condicional</div>
+        <div style="font-size:12px;color:var(--gray-600);line-height:1.7;">
+          Se activa si <strong>3 semanas consecutivas</strong> en 🔴 ROJO.<br>
+          Ventana rolling: últimas <strong>78 semanas</strong>.<br>
+          Compara nuevo vs activo antes de promover.<br>
+          Rollback automático si el nuevo empeora.<br>
+          <span style="color:var(--verde-mid);font-weight:500;">→ Versiones guardadas con prefijo YYYY_SS_</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════ -->
+<!-- TAB 6 — ÉTICA -->
+<!-- ══════════════════════════════════════════════════ -->
+<div id="t6" class="tab-content">
+  <div class="section-header">
+    <div class="section-icon"><i class="ti ti-shield-check"></i></div>
+    <div>
+      <div class="section-title">Análisis Ético y Gobernanza</div>
+      <div class="section-sub">UNESCO · OECD · NIST AI RMF · ISO 23894 · EU AI Act · LOPDP Ecuador</div>
+    </div>
+  </div>
+
+  <!-- Descripción de pestaña -->
+  <div class="tab-desc">
+    <div class="tab-desc-icon">⚖️</div>
+    <div class="tab-desc-body">
+      <div class="tab-desc-title">¿Qué muestra esta sección?</div>
+      <div class="tab-desc-text">
+        <strong>Marco ético y de gobernanza del sistema de IA</strong>, alineado con estándares internacionales (UNESCO, OECD, NIST AI RMF, ISO 23894, EU AI Act) y la normativa ecuatoriana (LOPDP). El principio central establece que el modelo <strong>recomienda y alerta</strong>, pero el experto valida y el planificador decide — el sistema no reemplaza el juicio humano. Se identifican <strong>7 riesgos éticos</strong> con su nivel (Alto/Medio) y medida de mitigación, y <strong>8 compromisos operativos verificables</strong> que incluyen supervisión humana en semanas pico, monitoreo de drift, fairness por variedad y bloque, y la prohibición explícita de uso laboral individual.
+      </div>
+    </div>
+  </div>
+
+  <!-- Principio central -->
+  <div style="background:var(--verde-deep);color:var(--white);border-radius:12px;padding:18px 24px;margin-bottom:24px;text-align:center;">
+    <div style="font-family:'Playfair Display',serif;font-size:16px;font-weight:600;color:var(--verde-soft);margin-bottom:6px;">Principio central de responsabilidad</div>
+    <div style="font-size:14px;opacity:0.9;">
+      El modelo <strong style="color:var(--verde-soft)">RECOMIENDA</strong> y <strong style="color:var(--verde-soft)">ALERTA</strong> &nbsp;·&nbsp;
+      El experto <strong style="color:var(--gold)">VALIDA</strong> &nbsp;·&nbsp;
+      El planificador <strong style="color:var(--gold)">DECIDE</strong> &nbsp;·&nbsp;
+      La gerencia <strong style="color:var(--gold)">APRUEBA</strong> decisiones críticas
+    </div>
+  </div>
+
+  <div class="grid-2">
+    <div>
+      <div class="card-title" style="margin-bottom:14px;"><i class="ti ti-alert-triangle"></i> Riesgos éticos identificados</div>
+      <div id="riesgos"></div>
+    </div>
+    <div>
+      <div class="card-title" style="margin-bottom:14px;"><i class="ti ti-check-circle"></i> Compromisos operativos verificables</div>
+      <div id="compromisos"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ FOOTER ══ -->
+<footer class="footer">
+  <span>FloriExport S.A.</span> (nombre ficticio para fines académicos) &nbsp;·&nbsp;
+  <span>UEES</span> Maestría en Inteligencia Artificial &nbsp;·&nbsp;
+  Grupo 14: Enrique Pérez & Fredy Aguirre &nbsp;·&nbsp;
+  Tutora: Mgs. Alexandra Arciniegas Coral &nbsp;·&nbsp; Mayo 2026
+</footer>
+
+<script>
+// ── DATOS ──────────────────────────────────────────────────────────────────
+const MODELOS_LABELS = ['Experto\nHumano', 'LightGBM\nBase', 'LightGBM\n+Optuna★', 'Random\nForest', 'EXP3/4\n(GPU)'];
+const MODELOS_MAE    = [581.6, 597.0, 577.2, null, null];
+const MODELOS_MAPE   = [29.02, 25.01, 21.52, 23.56, null];
+const MODELOS_P10    = [26.5, 69.1, 67.5, 67.7, null];
+const MODELOS_COLORS = ['#C0392B','#2D6A4F','#1A4731','#2D6A4F','#94A3B8'];
+
+const PRED_DATA = {
+  s17: [
+    {bloque:'A-01', var:'FREEDOM',    real:2850, modelo:2920, experto:2700, sem:'verde'},
+    {bloque:'A-01', var:'CHARLOTTE',  real:1920, modelo:1880, experto:1800, sem:'verde'},
+    {bloque:'A-02', var:'VENDELA',    real:1240, modelo:1058, experto:1100, sem:'rojo'},
+    {bloque:'A-02', var:'EXPLORER',   real:890,  modelo:921,  experto:870,  sem:'verde'},
+    {bloque:'A-03', var:'BLIZZARD',   real:3200, modelo:3180, experto:3000, sem:'verde'},
+    {bloque:'A-03', var:'SWEETNESS',  real:740,  modelo:765,  experto:700,  sem:'verde'},
+    {bloque:'B-07', var:'EXPLORER',   real:890,  modelo:745,  experto:820,  sem:'rojo'},
+    {bloque:'B-08', var:'INES',       real:1560, modelo:1590, experto:1500, sem:'verde'},
+    {bloque:'B-09', var:'HIGH MAGIC', real:2100, modelo:2080, experto:2200, sem:'verde'},
+    {bloque:'B-11', var:'FREEDOM',    real:2100, modelo:1782, experto:1900, sem:'rojo'},
+    {bloque:'C-04', var:'TOPAZ',      real:1340, modelo:1360, experto:1280, sem:'verde'},
+    {bloque:'C-05', var:'GRAND PRIX', real:980,  modelo:1005, experto:950,  sem:'verde'},
+    {bloque:'C-06', var:'CHARLOTTE',  real:1720, modelo:1695, experto:1650, sem:'verde'},
+    {bloque:'D-01', var:'CHERRY O',   real:430,  modelo:358,  experto:400,  sem:'rojo'},
+    {bloque:'D-02', var:'BLIZZARD',   real:2640, modelo:2610, experto:2580, sem:'verde'},
+  ],
+  s16: [
+    {bloque:'A-01', var:'FREEDOM',    real:2720, modelo:2780, experto:2600, sem:'verde'},
+    {bloque:'A-01', var:'CHARLOTTE',  real:1840, modelo:1800, experto:1750, sem:'verde'},
+    {bloque:'A-02', var:'VENDELA',    real:1180, modelo:1210, experto:1100, sem:'verde'},
+    {bloque:'B-08', var:'INES',       real:1490, modelo:1520, experto:1440, sem:'verde'},
+    {bloque:'B-09', var:'HIGH MAGIC', real:2050, modelo:2010, experto:2100, sem:'verde'},
+    {bloque:'C-04', var:'TOPAZ',      real:1280, modelo:1300, experto:1220, sem:'verde'},
+    {bloque:'D-02', var:'BLIZZARD',   real:2580, modelo:2550, experto:2520, sem:'verde'},
+  ],
+  s15: [
+    {bloque:'A-01', var:'FREEDOM',    real:2600, modelo:2650, experto:2480, sem:'verde'},
+    {bloque:'A-02', var:'VENDELA',    real:1100, modelo:940,  experto:1000, sem:'rojo'},
+    {bloque:'B-09', var:'HIGH MAGIC', real:1980, modelo:1950, experto:2020, sem:'verde'},
+    {bloque:'C-04', var:'TOPAZ',      real:1220, modelo:1240, experto:1160, sem:'verde'},
+  ]
+};
+
+const SERIE_LABELS = ['S01','S02','S03','S04','S05','S06','S07','S08','S09','S10','S11','S12'];
+const SERIE_REAL   = [3650,3820,4200,3980,5800,4100,3750,3920,4050,4280,3880,4100];
+const SERIE_MOD    = [3710,3790,4150,4020,5750,4080,3810,3900,4080,4260,3920,4080];
+const SERIE_EXP    = [3400,3550,3900,3700,5400,3800,3500,3650,3780,4000,3600,3820];
+
+const VARS_IMP = [
+  {name:'tallos_esp_ciclo', pct:100, rel:100},
+  {name:'lag_1',            pct:82,  rel:82},
+  {name:'plantas_prod',     pct:61,  rel:61},
+  {name:'tallos_por_planta',pct:48,  rel:48},
+  {name:'is_temporada',     pct:38,  rel:38},
+  {name:'lag_4',            pct:34,  rel:34},
+  {name:'temp_media',       pct:27,  rel:27},
+  {name:'mipe_max',         pct:22,  rel:22},
+  {name:'vpd_max',          pct:18,  rel:18},
+  {name:'lag_52',           pct:14,  rel:14},
+];
+
+const PIPELINE_STEPS = [
+  {icon:'ti-download',     title:'Carga del modelo activo',      desc:'Deserializa modelo_activo.pkl y encoders desde Drive',      out:'✅ LightGBM cargado · MAE=583t · trial#73 · 2026-04-25'},
+  {icon:'ti-file-spreadsheet', title:'Lectura archivos semanales', desc:'Lee YYYY_SS_hoja.xlsx de semanas/2026/ por cada fuente',  out:'✅ 6 fuentes leídas · produccion:1,842 · kardex:312 · clima:168 registros'},
+  {icon:'ti-cloud-download', title:'Relleno climático ERA5',      desc:'Open-Meteo API si sensor falla · fallback mediana semanal', out:'✅ ERA5 descargado · nulos climáticos: 0.0% · lat=0.04° lon=-78.23°'},
+  {icon:'ti-cpu',          title:'Feature engineering',           desc:'Integra histórico + semana T · recalcula lags · 20 features',out:'✅ 59 series × 20 features · tallos_esp_ciclo: 59/59 · lag_1: 59/59'},
+  {icon:'ti-brain',        title:'Predicción T+1 (semana S21)',   desc:'LightGBM infiere tallos por bloque × variedad',             out:'✅ 59 predicciones · total=264,176t · 0.21ms/serie · semáforo global: 🔴'},
+  {icon:'ti-chart-line',   title:'Evaluación semana T-1 (S19)',   desc:'Real vs modelo vs experto · semáforo por serie',            out:'✅ MAE=778t · MAPE=18.19% · 🟢=20 · 🟡=8 · 🔴=31 series'},
+  {icon:'ti-file-excel',   title:'Excel de salida',               desc:'Genera 2026_17_reporte.xlsx con 4 hojas en reportes/',      out:'✅ reporte guardado · hojas: prediccion·evaluacion·semaforos·historial'},
+  {icon:'ti-mail',         title:'Envío de correo',               desc:'Excel + PNGs adjuntos vía Gmail SMTP a lista de destinos',  out:'✅ Correo enviado a 3 destinatarios · 2026_17_reporte.xlsx adjunto'},
+  {icon:'ti-refresh',      title:'Verificación reentrenamiento',  desc:'Chequea historial · activa si N semanas en 🔴 ROJO',        out:'✅ Semanas en 🔴: 1 de 3 requeridas · modelo activo mantenido'},
+];
+
+const RIESGOS = [
+  {id:'R1', nivel:'Alto',  titulo:'Sesgo histórico del dataset',    mit:'Auditoría de residuales por periodo, variedad y bloque'},
+  {id:'R2', nivel:'Alto',  titulo:'Error diferencial por variedad', mit:'Umbral mínimo de historial · etiqueta de baja confianza'},
+  {id:'R3', nivel:'Alto',  titulo:'Fallo silencioso en temporada',  mit:'Alerta en semanas pico · doble validación humana'},
+  {id:'R4', nivel:'Medio', titulo:'Opacidad algorítmica',           mit:'Importancia de variables · SHAP en dashboard'},
+  {id:'R5', nivel:'Alto',  titulo:'Uso indebido laboral',           mit:'Política explícita de no uso laboral individual'},
+  {id:'R6', nivel:'Alto',  titulo:'Drift temporal o conceptual',    mit:'Tracking signal mensual · reentrenamiento rolling'},
+  {id:'R7', nivel:'Medio', titulo:'Privacidad y confidencialidad',  mit:'Separar datos productivos de personales · minimización'},
+];
+
+const COMPROMISOS = [
+  {icon:'👁', titulo:'Supervisión humana',       desc:'100% predicciones semanas pico revisadas · Semanal'},
+  {icon:'📊', titulo:'Monitoreo de desempeño',   desc:'Alerta si MAPE>20% o MAE>umbral · Mensual'},
+  {icon:'⚖️', titulo:'Fairness operativo',       desc:'MAE/MAPE por variedad, bloque y temporada · Mensual'},
+  {icon:'🔄', titulo:'Gestión de drift',         desc:'Tracking signal + reentrenamiento rolling · Post-temporada'},
+  {icon:'🚫', titulo:'Sin uso laboral',          desc:'Cero usos para evaluación individual o despido · Permanente'},
+  {icon:'🔍', titulo:'Transparencia',            desc:'Top variables influyentes en cada despliegue · Siempre'},
+  {icon:'📋', titulo:'Gobernanza de datos',      desc:'Validar completitud de variables críticas · Cada corrida'},
+  {icon:'🔐', titulo:'Gestión de cambios',       desc:'Todo nuevo uso requiere aprobación y evaluación · Cuando aplique'},
+];
+
+// ── CHART OPTIONS BASE ─────────────────────────────────────────────────────
+const chartDefaults = {
+  plugins: { legend: { labels: { font: { family: "'DM Sans'" }, color: '#6B6B62', boxWidth: 12 } } },
+  scales: {
+    x: { grid: { color: 'rgba(0,0,0,0.04)' }, ticks: { font: { family: "'DM Sans'", size: 11 }, color: '#6B6B62' } },
+    y: { grid: { color: 'rgba(0,0,0,0.04)' }, ticks: { font: { family: "'DM Sans'", size: 11 }, color: '#6B6B62' } }
+  }
+};
+
+// ── INIT CHARTS ────────────────────────────────────────────────────────────
+function safeVal(v) { return v === null ? 0 : v; }
+function makeColors(vals) {
+  return vals.map((v,i) => i === 2 ? '#1A4731' : (v === null ? '#E2E8F0' : MODELOS_COLORS[i]));
+}
+
+function initCharts() {
+  // TAB 1 — MAE
+  new Chart(document.getElementById('chartMAE'), {
+    type:'bar',
+    data:{
+      labels: MODELOS_LABELS,
+      datasets:[{
+        label:'MAE (tallos)',
+        data: MODELOS_MAE.map(safeVal),
+        backgroundColor: makeColors(MODELOS_MAE),
+        borderRadius: 6, borderSkipped: false,
+      }]
+    },
+    options:{...chartDefaults, plugins:{
+      legend:{display:false},
+      annotation:{annotations:{line:{type:'line',yMin:581.6,yMax:581.6,borderColor:'#C0392B',borderWidth:1.5,borderDash:[4,4]}}}
+    }}
+  });
+
+  // TAB 1 — MAPE
+  new Chart(document.getElementById('chartMAPE'), {
+    type:'bar',
+    data:{
+      labels: MODELOS_LABELS,
+      datasets:[{label:'MAPE%', data:MODELOS_MAPE.map(safeVal), backgroundColor:makeColors(MODELOS_MAPE), borderRadius:6, borderSkipped:false}]
+    },
+    options:{...chartDefaults, plugins:{legend:{display:false}}}
+  });
+
+  // TAB 1 — %±10
+  new Chart(document.getElementById('chartP10'), {
+    type:'bar',
+    data:{
+      labels:['Experto','LightGBM Base','LightGBM+Optuna★'],
+      datasets:[{label:'% dentro ±10%', data:[27.6,89.1,89.1], backgroundColor:['#C0392B','#2D6A4F','#1A4731'], borderRadius:6, borderSkipped:false}]
+    },
+    options:{...chartDefaults, plugins:{legend:{display:false}}, scales:{...chartDefaults.scales, y:{...chartDefaults.scales.y, max:100}}}
+  });
+
+  // TAB 3 — Serie temporal
+  new Chart(document.getElementById('chartSerie'), {
+    type:'line',
+    data:{
+      labels: SERIE_LABELS,
+      datasets:[
+        {label:'Real', data:SERIE_REAL, borderColor:'#374151', backgroundColor:'rgba(55,65,81,0.05)', tension:0.3, pointRadius:3, borderWidth:2},
+        {label:'Modelo (LightGBM)', data:SERIE_MOD, borderColor:'#1A4731', backgroundColor:'rgba(26,71,49,0.08)', tension:0.3, pointRadius:3, borderWidth:2.5},
+        {label:'Experto humano', data:SERIE_EXP, borderColor:'#C0392B', backgroundColor:'rgba(192,57,43,0.05)', tension:0.3, pointRadius:3, borderWidth:1.5, borderDash:[4,4]},
+      ]
+    },
+    options:{...chartDefaults}
+  });
+
+  // TAB 3 — Scatter
+  const scatterData = SERIE_REAL.map((r,i)=>({x:r, y:SERIE_MOD[i]}));
+  const scatterExp  = SERIE_REAL.map((r,i)=>({x:r, y:SERIE_EXP[i]}));
+  new Chart(document.getElementById('chartScatter'), {
+    type:'scatter',
+    data:{datasets:[
+      {label:'Modelo', data:scatterData, backgroundColor:'rgba(26,71,49,0.6)', pointRadius:5},
+      {label:'Experto', data:scatterExp, backgroundColor:'rgba(192,57,43,0.5)', pointRadius:4, pointStyle:'triangle'},
+    ]},
+    options:{...chartDefaults, scales:{
+      x:{...chartDefaults.scales.x, title:{display:true, text:'Real (tallos)', font:{family:"'DM Sans'"}}},
+      y:{...chartDefaults.scales.y, title:{display:true, text:'Predicho (tallos)', font:{family:"'DM Sans'"}}}
+    }}
+  });
+
+  // TAB 3 — Error dist
+  const errs = [-20,-15,-12,-8,-5,-3,0,3,5,8,10,13,16,20,25];
+  new Chart(document.getElementById('chartErrorDist'), {
+    type:'bar',
+    data:{
+      labels: errs.map(e=>e+'%'),
+      datasets:[
+        {label:'Modelo', data:[1,2,3,5,8,14,18,12,9,7,5,3,2,1,0], backgroundColor:'rgba(26,71,49,0.65)', borderRadius:3},
+        {label:'Experto', data:[2,3,5,4,5,7,9,8,7,7,8,7,6,5,5], backgroundColor:'rgba(192,57,43,0.4)', borderRadius:3},
+      ]
+    },
+    options:{...chartDefaults}
+  });
+
+  // TAB 4 — MAE2
+  new Chart(document.getElementById('chartMAE2'), {
+    type:'bar',
+    data:{
+      labels:['Experto','LightGBM\nBase','LightGBM\n+Optuna★'],
+      datasets:[{label:'MAE (tallos)', data:[581.6,597.0,577.2], backgroundColor:['#C0392B','#2D6A4F','#1A4731'], borderRadius:6, borderSkipped:false}]
+    },
+    options:{...chartDefaults, plugins:{legend:{display:false}}}
+  });
+}
+
+// ── IMPORTANCIA VARIABLES ──────────────────────────────────────────────────
+function renderVarImportance() {
+  const el = document.getElementById('varImportance');
+  el.innerHTML = VARS_IMP.map((v,i)=>`
+    <div class="var-bar-row">
+      <span class="var-name">${v.name}</span>
+      <div class="var-bar-track">
+        <div class="var-bar-fill ${i===0?'top1':''}" style="width:${v.rel}%"></div>
+      </div>
+      <span class="var-pct">${v.rel}%</span>
+    </div>`).join('');
+}
+
+// ── TABLA PREDICCIONES ─────────────────────────────────────────────────────
+function semBadge(s) {
+  if(s==='verde') return '<span class="sem-badge sem-verde">🟢 Verde</span>';
+  if(s==='amar')  return '<span class="sem-badge sem-amar">🟡 Amarillo</span>';
+  return '<span class="sem-badge sem-rojo">🔴 Rojo</span>';
+}
+function updatePredTable(key) {
+  const data = PRED_DATA[key] || PRED_DATA.s17;
+  const tbody = document.getElementById('predTbody');
+  tbody.innerHTML = data.map(r=>`
+    <tr ${r.sem==='rojo'?'style="background:var(--rojo-light)"':''}>
+      <td><code style="font-size:11px">${r.bloque}</code></td>
+      <td>${r.var}</td>
+      <td>${r.real.toLocaleString()}</td>
+      <td><strong>${r.modelo.toLocaleString()}</strong></td>
+      <td style="color:var(--gray-500)">${r.experto.toLocaleString()}</td>
+      <td>${semBadge(r.sem)}</td>
+    </tr>`).join('');
+  // top series chart
+  const top8 = [...data].sort((a,b)=>b.modelo-a.modelo).slice(0,8);
+  if(window._topChart) window._topChart.destroy();
+  window._topChart = new Chart(document.getElementById('chartTopSeries'), {
+    type:'bar', indexAxis:'y',
+    data:{
+      labels: top8.map(r=>r.bloque+' '+r.var.substring(0,8)),
+      datasets:[
+        {label:'Modelo',  data:top8.map(r=>r.modelo),  backgroundColor:'rgba(26,71,49,0.75)', borderRadius:4},
+        {label:'Experto', data:top8.map(r=>r.experto), backgroundColor:'rgba(192,57,43,0.4)', borderRadius:4},
+      ]
+    },
+    options:{...chartDefaults, scales:{
+      x:{...chartDefaults.scales.x, stacked:false},
+      y:{...chartDefaults.scales.y, ticks:{font:{family:"'DM Mono'",size:10},color:'#6B6B62'}}
+    }}
+  });
+}
+
+// ── PIPELINE ANIMATION ─────────────────────────────────────────────────────
+function renderPipelineSteps() {
+  const el = document.getElementById('pipelineSteps');
+  el.innerHTML = PIPELINE_STEPS.map((s,i)=>`
+    <div class="step" id="step${i}">
+      <div class="step-dot"><i class="ti ti-check" style="font-size:9px"></i></div>
+      <div class="step-icon"><i class="ti ${s.icon}"></i></div>
+      <div class="step-body">
+        <div class="step-title">${i+1}. ${s.title}</div>
+        <div class="step-desc">${s.desc}</div>
+        <div class="step-output" id="out${i}">${s.out}</div>
+      </div>
+    </div>`).join('');
+}
+
+let pipelineRunning = false;
+async function runPipeline() {
+  if(pipelineRunning) return;
+  pipelineRunning = true;
+  const btn = document.getElementById('runBtn');
+  btn.disabled = true;
+  btn.innerHTML = '<i class="ti ti-loader-2" style="animation:spin 1s linear infinite"></i> Ejecutando...';
+
+  // Reset
+  PIPELINE_STEPS.forEach((_,i)=>{
+    document.getElementById(`step${i}`).className = 'step';
+  });
+
+  for(let i=0; i<PIPELINE_STEPS.length; i++) {
+    const stepEl = document.getElementById(`step${i}`);
+    stepEl.classList.add('active');
+    stepEl.scrollIntoView({behavior:'smooth', block:'nearest'});
+    await sleep(900);
+    stepEl.classList.remove('active');
+    stepEl.classList.add('done');
+    document.getElementById(`out${i}`).style.display = 'block';
+  }
+
+  btn.disabled = false;
+  btn.innerHTML = '<i class="ti ti-player-play"></i> Ejecutar pipeline semana 2026/S20';
+  pipelineRunning = false;
+}
+
+function sleep(ms) { return new Promise(r=>setTimeout(r,ms)); }
+
+// ── RIESGOS Y COMPROMISOS ──────────────────────────────────────────────────
+function renderEthics() {
+  document.getElementById('riesgos').innerHTML = RIESGOS.map(r=>`
+    <div class="risk-card">
+      <div>
+        <span class="risk-level risk-${r.nivel==='Alto'?'alto':'medio'}">${r.nivel}</span>
+      </div>
+      <div>
+        <div class="risk-title">${r.id} · ${r.titulo}</div>
+        <div class="risk-mit">→ ${r.mit}</div>
+      </div>
+    </div>`).join('');
+
+  document.getElementById('compromisos').innerHTML = COMPROMISOS.map(c=>`
+    <div class="commit-card">
+      <div class="commit-icon">${c.icon}</div>
+      <div>
+        <div class="commit-title">${c.titulo}</div>
+        <div class="commit-desc">${c.desc}</div>
+      </div>
+    </div>`).join('');
+}
+
+// ── TABS ──────────────────────────────────────────────────────────────────
+function showTab(id, btn) {
+  document.querySelectorAll('.tab-content').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  btn.classList.add('active');
+}
+
+// ── SPIN ANIMATION ─────────────────────────────────────────────────────────
+const style = document.createElement('style');
+style.textContent = '@keyframes spin{to{transform:rotate(360deg)}}';
+document.head.appendChild(style);
+
+// ── INIT ──────────────────────────────────────────────────────────────────
+document.addEventListener('DOMContentLoaded', ()=>{
+  initCharts();
+  renderVarImportance();
+  updatePredTable('s17');
+  renderPipelineSteps();
+  renderEthics();
+});
+</script>
+</body>
+</html>
